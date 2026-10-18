@@ -1,0 +1,7 @@
+# Open to every crawler, including search and AI crawlers:
+# Googlebot, Bingbot, OAI-SearchBot, ChatGPT-User, GPTBot,
+# Claude-SearchBot, Claude-User, ClaudeBot and PerplexityBot.
+User-agent: *
+Allow: /
+
+Sitemap: https://laurelpasspartners.com/sitemap.xml
