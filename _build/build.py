@@ -61,7 +61,7 @@ PAGES = [
          desc="Attorney buyer, merger, broker, private equity through an MSO, or winding down: how each option works for a New York law practice owner."),
     dict(src="faq", url="/faq", kind="faq", nav="faq",
          title="Questions About Selling Your Law Practice | Laurel Pass Partners FAQ",
-         desc="Answers to the questions New York practice owners ask Laurel Pass Partners: who we are, what we buy, price and timing, clients, staff, confidentiality and taxes."),
+         desc="Answers to common questions from New York practice owners about selling to Laurel Pass Partners: who we are, what we buy, price and timing, clients, staff and taxes."),
     dict(src="about", url="/about", kind="about", nav="about",
          title="About Laurel Pass Partners | Attorney-led practice acquisitions",
          desc="Laurel Pass Partners is led by a New York attorney with a background in large-firm M&A and tax. What we do, how we work and what we believe about practice sales."),
