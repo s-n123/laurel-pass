@@ -55,7 +55,7 @@
     },
     {
       "source": "/insights/can-your-firm-name-stay-on-the-door",
-      "destination": "/faq",
+      "destination": "/retire",
       "permanent": true
     }
   ]

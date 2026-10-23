@@ -22,7 +22,7 @@ DISCLOSURE = (f"{ENTITY} LLC is not a law firm and does not provide legal servic
               "work with are independently owned and operated by licensed attorneys.")
 DESCRIPTION = (f"{ENTITY} is an attorney-led platform that partners with elder law, estate planning "
                "and probate firms in the New York metro area and northern New Jersey.")
-PUBLISHED = "2026-10-18"
+PUBLISHED = "2026-10-23"
 
 ORG = {
     "@type": "Organization",
@@ -41,29 +41,29 @@ ORG = {
                    "Sale of a law practice under Rule 1.17"],
 }
 
-# path: output file; url: public path; kind: website | guide | article | faq | about | page
+# path: output file; url: public path; kind: website | page | contact | about | faq | notfound
 PAGES = [
     dict(src="home", out="index.html", url="/", kind="website", modified="2026-10-23",
-         title=f"Partner or Sell Your Estate Planning Practice in New York and New Jersey | {ENTITY}",
+         title=f"Partner or Sell Your Estate Planning Practice in New York | {ENTITY}",
          og_title="Your practice. Your clients. A partner who'll still be there.",
-         desc="Liquidity for elder law, estate planning and probate firm owners who want to keep practicing, and a structured handoff for those ready to retire. NY metro and NJ.",
+         desc="Liquidity for elder law, estate planning and probate firm owners who keep practicing, and a structured handoff for those who retire. NY metro and northern NJ.",
          og_desc="A partner to elder law, estate planning and probate firms across the New York area and northern New Jersey.",
          cta=False),
     dict(src="partner", url="/partner", kind="page", nav="partner", modified="2026-10-23",
-         title=f"Elder Law Practice Succession: Partner and Keep Practicing | {ENTITY}",
-         desc="Own an elder law, estate planning or probate firm on Long Island, in Westchester, NYC or northern NJ? Sell a minority stake, keep practicing, get a services team."),
+         title=f"Elder Law Practice Succession, Long Island to NJ | {ENTITY}",
+         desc="Own an elder law, estate planning or probate firm on Long Island, in Westchester, NYC or northern NJ? Sell a minority stake and keep practicing."),
     dict(src="retire", url="/retire", kind="page", nav="retire", modified="2026-10-23",
-         title=f"Sell Your Estate Planning, Elder Law or Probate Practice in NY or NJ | {ENTITY}",
-         desc="Retiring from an estate planning, elder law or probate practice in New York or northern New Jersey? A fair purchase under the sale-of-practice rules, staff kept."),
+         title=f"Sell Your Elder Law or Probate Practice in NY or NJ | {ENTITY}",
+         desc="Planning retirement from an elder law, estate planning or probate practice in Westchester, Long Island, NYC or northern NJ? A fair purchase under the rules."),
     dict(src="about", url="/about", kind="about", nav="about", modified="2026-10-23",
-         title=f"About {ENTITY} | Attorney-led partner to elder law and estate planning firms",
-         desc="An attorney-led platform that partners with elder law, estate planning and probate firms in the New York metro area and northern New Jersey, and why."),
+         title=f"About {ENTITY} | Attorney-led, NY Metro and Northern NJ",
+         desc="An attorney-led platform partnering with elder law, estate planning and probate firms in the New York metro area and northern New Jersey: what it does and why."),
     dict(src="faq", url="/faq", kind="faq", nav="faq", modified="2026-10-23",
-         title=f"FAQ: Partnering or Retiring From an Estate Planning or Elder Law Practice | {ENTITY}",
+         title=f"Estate Planning and Elder Law Practice Owner FAQ | {ENTITY}",
          desc="Who owns the firm, what happens to staff, client files and original wills, how price and financing work, timing, fees and confidentiality. Plain answers."),
-    dict(src="contact", url="/contact", kind="page", nav=None, cta=False, modified="2026-10-23",
+    dict(src="contact", url="/contact", kind="contact", nav=None, cta=False, modified="2026-10-23",
          title=f"Start a Confidential Conversation | {ENTITY}",
-         desc="Tell us about your elder law, estate planning or probate practice. You'll hear back within two business days, and nothing is shared without an NDA."),
+         desc="Tell us about your elder law, estate planning or probate practice. You'll hear back within two business days, and nothing goes to anyone else without an NDA."),
     dict(src="404", out="404.html", url="/404", kind="notfound", noindex=True, cta=False,
          title=f"Page not found | {ENTITY}",
          desc="This page doesn't exist. Read about partnering or retiring, see common questions, or start a confidential conversation."),
@@ -121,22 +121,18 @@ def schema_for(page, body):
     if kind == "website":
         graph.append({"@type": "WebSite", "@id": ORIGIN + "/#website", "name": ENTITY,
                       "url": ORIGIN + "/", "publisher": {"@id": ORG["@id"]}})
-    elif kind in ("guide", "article"):
-        graph.append({"@type": "Article", "@id": url + "#article", "headline": h1_of(body),
-                      "description": page["desc"], "url": url, "mainEntityOfPage": url,
-                      "image": ORIGIN + "/og-image.png", "inLanguage": "en-US",
-                      "datePublished": page.get("published", PUBLISHED),
-                      "dateModified": page.get("modified", PUBLISHED),
-                      "author": {"@id": ORG["@id"]}, "publisher": {"@id": ORG["@id"]}})
+        graph.append({"@type": "WebPage", "@id": url + "#page", "url": url, "name": page["og_title"],
+                      "description": page["desc"], "isPartOf": {"@id": ORIGIN + "/#website"},
+                      "about": {"@id": ORG["@id"]}})
     elif kind == "faq":
         graph.append({"@type": "FAQPage", "@id": url + "#faq", "url": url,
                       "mainEntity": faq_entities(body)})
-    elif kind == "page":
-        graph.append({"@type": "WebPage", "@id": url + "#page", "url": url, "name": h1_of(body),
+    elif kind in ("page", "contact"):
+        graph.append({"@type": "ContactPage" if kind == "contact" else "WebPage", "@id": url + "#page", "url": url, "name": h1_of(body),
                       "description": page["desc"], "about": {"@id": ORG["@id"]}})
     elif kind == "about":
         graph.append({"@type": "AboutPage", "@id": url + "#page", "url": url, "name": h1_of(body),
-                      "about": {"@id": ORG["@id"]}})
+                      "description": page["desc"], "about": {"@id": ORG["@id"]}})
     data = {"@context": "https://schema.org", "@graph": graph}
     return json.dumps(data, indent=1, ensure_ascii=False).replace("</", "<\\/")
 
@@ -167,7 +163,7 @@ def header(page):
 
 CTA = """<section class="dark cta-band">
 <div class="wrap row">
-<h2>Thinking about what comes next for your practice? Start with a confidential conversation.</h2>
+<h2>Thinking about what comes next for your practice? A first call is confidential and commits you to nothing.</h2>
 <a class="btn btn-primary" href="/contact" style="font-size:17px">Start a confidential conversation</a>
 </div>
 </section>"""
@@ -185,12 +181,12 @@ FOOTER = f"""<footer class="dark site-footer">
 <ul>
 <li><a href="/partner">Partner and keep practicing</a></li>
 <li><a href="/retire">Retire on your timeline</a></li>
-<li><a href="/#how">How a conversation works</a></li>
 </ul>
 </div>
 <div>
 <h2>More</h2>
 <ul>
+<li><a href="/#how">How a conversation works</a></li>
 <li><a href="/about">About</a></li>
 <li><a href="/faq">FAQ</a></li>
 <li><a href="/contact">Start a confidential conversation</a></li>
@@ -209,10 +205,13 @@ ANALYTICS = """<script>window.va = window.va || function () { (window.vaq = wind
 
 
 def form_action():
-    if FORM_TARGET.startswith(("https://", "http://")):
+    if not (FORM_TARGET == "[FORM ENDPOINT OR INBOX]" or FORM_TARGET.startswith("https://")
+            or re.fullmatch(r"[^\s@\[\]:]+@[^\s@\[\]]+", FORM_TARGET)):
+        sys.exit(f"FORM_TARGET must be an https:// endpoint or a bare inbox address, got {FORM_TARGET!r}")
+    if FORM_TARGET.startswith("https://"):
         return f' action="{FORM_TARGET}"'
     if re.fullmatch(r"[^\s@\[\]]+@[^\s@\[\]]+", FORM_TARGET):
-        return f' action="mailto:{FORM_TARGET}" enctype="text/plain"'
+        return f' action="mailto:{FORM_TARGET}?subject=Confidential%20inquiry" enctype="text/plain"'
     return ""
 
 
@@ -226,11 +225,15 @@ def render(page):
         blocks = {text_of(q): m for m, q in re.findall(r"(<details><summary>(.*?)</summary>.*?</details>)", faq, re.S)}
         body = body.replace("<!--FAQ_PREVIEW-->", "\n".join(blocks[q] for q in FAQ_PREVIEW))
     if "<!--CONTACT_FORM-->" in body:
-        form = (SRC / "partials" / "contact-form.html").read_text().replace("{action}", form_action())
+        noscript = "" if form_action() else (
+            '<noscript><p style="margin:0;font-size:14px;color:var(--muted)">This form isn\'t connected '
+            f'yet. Please write to {EMAIL} instead.</p></noscript>')
+        form = (SRC / "partials" / "contact-form.html").read_text()
+        form = form.replace("{action}", form_action()).replace("{noscript}", noscript)
         body = body.replace("<!--CONTACT_FORM-->", form.strip())
-        script += (SRC / "partials" / "contact-form-script.html").read_text().replace("{target}", FORM_TARGET)
+        script += (SRC / "partials" / "contact-form-script.html").read_text().replace("{target}", FORM_TARGET).replace("{email}", EMAIL)
     url = ORIGIN + page["url"]
-    og_type = "article" if page["kind"] in ("guide", "article") else "website"
+    og_type = "website"
     e = html.escape
     if page.get("noindex"):
         robots, og_url = '<meta name="robots" content="noindex">\n', ""
@@ -307,7 +310,7 @@ def llms():
 
 > {DESCRIPTION}
 
-{ENTITY} works with owner-operators of elder law, estate planning, and probate and trust administration firms on Long Island, in Westchester, in the five boroughs and in northern New Jersey, typically with roughly $750K–$3M in revenue and one to five attorneys. Owners choose one of two paths: partner and keep practicing (sell a minority stake for liquidity, keep running the practice, hand marketing, intake, administration and technology to a services team, and hold equity in the platform), or retire on their own timeline (a purchase structured under the professional rules on the sale of a law practice, staff kept, a structured handoff). Firms stay owned by attorneys. Conversations are confidential and covered by an NDA before any details are shared. {DISCLOSURE} Contact: {EMAIL}
+{ENTITY} works with owner-operators of elder law, estate planning, and probate and trust administration firms on Long Island, in Westchester, in the five boroughs and in northern New Jersey, typically with roughly $750K–$3M in revenue and one to five attorneys. Owners choose one of two paths: partner and keep practicing (sell a minority stake for liquidity, keep running the practice, have a services team handle marketing, intake, administration and technology under the firm's direction, and hold equity in the platform), or retire on their own timeline (a purchase by a licensed attorney, structured under the professional rules on the sale of a law practice, staff kept, a structured handoff). Firms stay owned by attorneys. Conversations are confidential and covered by an NDA before any details are shared. {DISCLOSURE} Contact: {EMAIL}
 
 ## Start here
 
@@ -320,6 +323,15 @@ def llms():
     (OUT / "llms.txt").write_text(text)
 
 
+def robots():
+    (OUT / "robots.txt").write_text(
+        "# Open to every crawler, including search and AI crawlers:\n"
+        "# Googlebot, Bingbot, OAI-SearchBot, ChatGPT-User, GPTBot,\n"
+        "# Claude-SearchBot, Claude-User, ClaudeBot and PerplexityBot.\n"
+        "User-agent: *\nAllow: /\n\n"
+        f"Sitemap: {ORIGIN}/sitemap.xml\n")
+
+
 if __name__ == "__main__":
     for p in PAGES:
         if (SRC / (p["src"] + ".html")).exists():
@@ -328,3 +340,4 @@ if __name__ == "__main__":
             print("skip (no source yet)", p["src"])
     sitemap()
     llms()
+    robots()

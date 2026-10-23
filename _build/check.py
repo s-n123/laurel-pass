@@ -16,7 +16,11 @@ BANNED = [r"\bDWI\b", r"\bDUI\b", r"criminal", r"personal injury", r"\bacquir", 
           r"private equity", r"\bMSO\b", r"roll-?up", r"\bpremier\b", r"\bpremium\b", r"\bleading\b",
           r"\bcheaper\b", r"platform play", r"\bour (attorneys|lawyers|law firms?|team)\b",
           r"we handle cases", r"paid at closing", r"cash at closing", r"\bmultiples?\b", r"laurel",
-          r"spencer", r"\bM&(amp;)?A\b", r"large-firm"]
+          r"spencer", r"\bM&(amp;)?A\b", r"large-firm",
+          r"\bflat[- ]fee", r"\bretainer", r"\bSBA\b", r"letter of intent", r"\bLOI\b", r"one business day",
+          r"90 to 120", r"\$500K", r"\$5M", r"fee revenue", r"\bbrokers?\b", r"\bfunds?\b", r"\btraffic\b",
+          r"misdemeanor", r"bankruptcy", r"divorce", r"\bwe buy\b", r"\bat closing\b", r"formspree",
+          r"how-a-sale-works", r"what-is-my-practice-worth", r"\bguides?\b", r"(?<!_vercel/)insights"]
 DISCLOSURE_RE = r"\S+(?: \S+)*? LLC is not a law firm and does not provide legal services\."
 
 
@@ -109,12 +113,6 @@ for f in html_files:
                     if q["name"] not in text or q["acceptedAnswer"]["text"] not in text:
                         problems.append(f"{f.name}: FAQ entry not in visible text: {q['name']}")
                 print(f"{f.name}: {len(node['mainEntity'])} FAQ entries")
-            if node["@type"] == "Article":
-                if node["headline"] not in text:
-                    problems.append(f"{f.name}: headline not visible")
-                canon = re.search(r'<link rel="canonical" href="(.*?)">', src).group(1)
-                if node["url"] != canon:
-                    problems.append(f"{f.name}: Article url {node['url']} != canonical {canon}")
     # Links
     for href in pg.links:
         if href.startswith(("mailto:", "http://", "https://")):
@@ -156,8 +154,15 @@ for f, (src, _) in parsed.items():
 if locs != canons:
     problems.append(f"sitemap/canonical mismatch: only sitemap {locs - canons}, only canonical {canons - locs}")
 
+if f"Sitemap: {ORIGIN}/sitemap.xml" not in (ROOT / "robots.txt").read_text():
+    problems.append("robots.txt: Sitemap line does not match ORIGIN")
+
 for extra in ("llms.txt", "robots.txt", "sitemap.xml"):
     banned_in(extra, (ROOT / extra).read_text())
 
 print(f"{len(html_files)} pages, {len(locs)} sitemap URLs")
 print("\n".join(problems) if problems else "No problems found")
+# Not a failure: a reminder of what still has to be filled in before launch.
+left = sorted({m for f in html_files for m in re.findall(r"\[(?:ENTITY NAME|DOMAIN|CONTACT EMAIL|FORM ENDPOINT OR INBOX)\]", f.read_text())})
+if left:
+    print("Placeholders still set (fine for previews, not for launch):", ", ".join(left))

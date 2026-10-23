@@ -10,7 +10,7 @@ const og = `<!doctype html><html><head><link href="https://fonts.googleapis.com/
 <body style="margin:0;width:1200px;height:630px;background:#F6F1E7;color:#22201C;box-sizing:border-box;padding:56px 80px;display:flex;flex-direction:column;justify-content:space-between">
 <div style="display:flex;align-items:center;gap:14px;padding-bottom:22px;border-bottom:4px double #22201C">${SPRIG}<span style="font-family:Newsreader;font-weight:500;font-size:34px">${ENTITY}</span></div>
 <div style="font-family:Newsreader;font-size:70px;line-height:1.06;letter-spacing:-0.015em;max-width:1000px">Your practice. Your clients. <em style="color:#7A2E2A;white-space:nowrap">A partner</em> who'll still be there.</div>
-<div style="font-family:'IBM Plex Sans';font-weight:500;font-size:17px;letter-spacing:.12em;text-transform:uppercase;color:#5A544A;padding-top:22px;border-top:1px solid #D8CFBE">Elder law · Estate planning · Probate · New York area and northern New Jersey</div>
+<div style="font-family:'IBM Plex Sans';font-weight:500;font-size:17px;letter-spacing:.12em;text-transform:uppercase;color:#5A544A;padding-top:22px;border-top:1px solid #D8CFBE">For elder law, estate planning and probate firms · NY area and northern NJ</div>
 </body></html>`;
 const b = await chromium.launch(process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {});
 const p = await b.newPage({ viewport: { width: 1200, height: 630 } });

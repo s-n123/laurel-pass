@@ -1,11 +1,12 @@
 <form id="contact-form"{action} method="post" style="flex:999 1 520px;min-width:0;background:var(--card);color:var(--ink);border:1px solid var(--line);padding:32px;display:flex;flex-direction:column;gap:18px">
+<p style="margin:0;font-size:14px;color:var(--muted)">Only your name and email are required. Share as much or as little as you like.</p>
 <div class="row" style="gap:18px">
 <label class="field">Your name (required)<input type="text" name="name" required autocomplete="name"></label>
 <label class="field">Email (required)<input type="email" name="email" required autocomplete="email"></label>
 </div>
 <div class="row" style="gap:18px">
-<label class="field">Phone (optional)<input type="tel" name="phone" autocomplete="tel"></label>
-<label class="field">Firm name (optional)<input type="text" name="firm" autocomplete="organization"></label>
+<label class="field">Phone<input type="tel" name="phone" autocomplete="tel"></label>
+<label class="field">Firm name<input type="text" name="firm" autocomplete="organization"></label>
 </div>
 <div class="row" style="gap:18px">
 <label class="field">County<select name="county">
@@ -15,11 +16,11 @@
 <optgroup label="Northern New Jersey"><option>Bergen</option><option>Essex</option><option>Hudson</option><option>Morris</option><option>Passaic</option><option>Somerset</option><option>Sussex</option><option>Union</option><option>Warren</option><option>Another New Jersey county</option></optgroup>
 <option>Somewhere else</option>
 </select></label>
-<label class="field">Approximate annual revenue<select name="revenue"><option value="">Choose one</option><option>Under $750K</option><option>$750K–$1.5M</option><option>$1.5M–$3M</option><option>Over $3M</option><option>Prefer to discuss</option></select></label>
+<label class="field">Approximate annual revenue<select name="revenue"><option value="">Choose one</option><option>Under $750K</option><option value="$750K-$1.5M">$750K–$1.5M</option><option value="$1.5M-$3M">$1.5M–$3M</option><option>Over $3M</option><option>Prefer to discuss</option></select></label>
 </div>
 <fieldset style="margin:0;padding:0;border:0;min-width:0">
 <legend style="padding:0;margin:0 0 6px;font-size:14px;font-weight:500">Practice mix (check all that apply)</legend>
-<div class="row" style="column-gap:24px">
+<div class="row" style="column-gap:18px">
 <label style="flex:1 1 240px;flex-direction:row;align-items:center;gap:10px;min-height:44px;font-weight:400"><input type="checkbox" name="practice" value="Estate planning" style="width:20px;height:20px;min-height:0;padding:0;margin:0;flex:none;accent-color:var(--accent)">Estate planning</label>
 <label style="flex:1 1 240px;flex-direction:row;align-items:center;gap:10px;min-height:44px;font-weight:400"><input type="checkbox" name="practice" value="Elder law / Medicaid planning" style="width:20px;height:20px;min-height:0;padding:0;margin:0;flex:none;accent-color:var(--accent)">Elder law / Medicaid planning</label>
 <label style="flex:1 1 240px;flex-direction:row;align-items:center;gap:10px;min-height:44px;font-weight:400"><input type="checkbox" name="practice" value="Probate and trust administration" style="width:20px;height:20px;min-height:0;padding:0;margin:0;flex:none;accent-color:var(--accent)">Probate and trust administration</label>
@@ -30,14 +31,15 @@
 </fieldset>
 <div class="row" style="gap:18px">
 <label class="field">Number of attorneys<select name="attorneys"><option value="">Choose one</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6 or more</option></select></label>
-<label class="field">Number of staff<select name="staff"><option value="">Choose one</option><option>None</option><option>1–2</option><option>3–5</option><option>6–10</option><option>More than 10</option></select></label>
+<label class="field">Number of staff<select name="staff"><option value="">Choose one</option><option>None</option><option value="1-2">1–2</option><option value="3-5">3–5</option><option value="6-10">6–10</option><option>More than 10</option></select></label>
 </div>
 <div class="row" style="gap:18px">
 <label class="field">Which path interests you?<select name="path"><option value="">Choose one</option><option>Keep practicing</option><option>Retire</option><option>Not sure yet</option></select></label>
-<label class="field">Timeline<select name="timeline"><option value="">Choose one</option><option>Now</option><option>In 6–12 months</option><option>Just exploring</option></select></label>
+<label class="field">Timeline<select name="timeline"><option value="">Choose one</option><option>Now</option><option value="In 6-12 months">In 6–12 months</option><option>Just exploring</option></select></label>
 </div>
-<label>How did you hear about us? (optional)<input type="text" name="source"></label>
+<label>How did you hear about us?<input type="text" name="source"></label>
 <button type="submit" class="btn btn-primary" style="align-self:flex-start;border:0;font-size:16px;cursor:pointer">Send confidentially</button>
-<p style="margin:0;font-size:13px;line-height:1.5;color:var(--quiet)">Privacy: what you send is used only to reply to you, and it isn't shared with anyone without an NDA.</p>
+<p style="margin:0;font-size:13px;line-height:1.5;color:var(--quiet)">Privacy: what you send is used only to reply to you and to see whether a conversation makes sense. It passes through the service that runs this form and isn't shared with anyone else without an NDA.</p>
 <p id="form-status" role="status" style="margin:0;font-size:14px;color:var(--muted)"></p>
+{noscript}
 </form>
