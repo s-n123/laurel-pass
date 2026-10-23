@@ -6,7 +6,7 @@ from html.parser import HTMLParser
 from pathlib import Path
 
 ROOT = Path(sys.argv[1])
-ORIGIN = "https://laurelwaypartners.com"
+ORIGIN = "https://[DOMAIN]"  # keep in step with ORIGIN in build.py
 problems = []
 
 
