@@ -87,8 +87,8 @@ NAV = [("how", "/how-a-sale-works", "How a sale works"),
        ("faq", "/faq", "FAQ"),
        ("about", "/about", "About")]
 
-LOGO_SVG = ('<svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="#1E5B45" '
-            'stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+LOGO_SVG = ('<svg width="30" height="30" viewBox="0 0 28 28" fill="none" stroke="#7A2E2A" '
+            'stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
             '<path d="M14 26V5"/><path d="M14 21C10 21 7.5 18.5 7 15C10.5 15.2 13 17.5 14 21Z"/>'
             '<path d="M14 21C18 21 20.5 18.5 21 15C17.5 15.2 15 17.5 14 21Z"/>'
             '<path d="M14 14C10.5 14 8.5 11.8 8 8.8C11 9 13.2 11 14 14Z"/>'
@@ -254,7 +254,7 @@ def render(page):
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles.css">
 <script type="application/ld+json">
 {schema_for(page, body)}
