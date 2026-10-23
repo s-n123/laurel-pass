@@ -14,7 +14,7 @@
 <meta property="og:image" content="https://[DOMAIN]/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="[ENTITY NAME]: a partner to elder law, estate planning and probate firms in New York and northern New Jersey">
+<meta property="og:image:alt" content="[ENTITY NAME]: a partner to elder law, estate planning and probate firms in the New York area and northern New Jersey">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon-48.png" sizes="48x48" type="image/png">
@@ -99,7 +99,7 @@
 <h2 class="serif" style="margin:0 0 16px;font-size:28px;font-weight:500">What happens next</h2>
 <ol class="steps" style="margin:0">
 <li><p class="body">You'll get a reply within two business days to set up a confidential call.</p></li>
-<li><p class="body">If it makes sense to go further, an NDA is signed before any details change hands.</p></li>
+<li><p class="body">If it makes sense to go further, an NDA is signed before any detailed information changes hands.</p></li>
 <li><p class="body">Nothing about the conversation is made public, and nothing commits you to anything.</p></li>
 </ol>
 </div>
@@ -144,7 +144,7 @@
 </div>
 <label>How did you hear about us?<input type="text" name="source"></label>
 <button type="submit" class="btn btn-primary" style="align-self:flex-start;border:0;font-size:16px;cursor:pointer">Send confidentially</button>
-<p style="margin:0;font-size:13px;line-height:1.5;color:var(--quiet)">Privacy: what you send is used only to reply to you and to see whether a conversation makes sense. It passes through the service that runs this form and isn't shared with anyone else without an NDA.</p>
+<p style="margin:0;font-size:13px;line-height:1.5;color:var(--quiet)">Privacy: what you send is used only to reply to you and to see whether a conversation makes sense. Apart from the form or email service that carries it, it isn't shared with anyone else without an NDA.</p>
 <p id="form-status" role="status" style="margin:0;font-size:14px;color:var(--muted)"></p>
 <noscript><p style="margin:0;font-size:14px;color:var(--muted)">This form isn't connected yet. Please write to [CONTACT EMAIL] instead.</p></noscript>
 </form>
@@ -224,7 +224,7 @@ document.getElementById('contact-form').addEventListener('submit', function (e) 
       '&body=' + encodeURIComponent(lines.join('\r\n'));
     return;
   }
-  status.textContent = "This form isn't connected yet, so your message wasn't sent.";
+  status.textContent = "This form isn't connected yet, so your message wasn't sent. Please write to " + CONTACT_EMAIL + " instead.";
 });
 </script>
 </body>

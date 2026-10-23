@@ -38,6 +38,6 @@ document.getElementById('contact-form').addEventListener('submit', function (e) 
       '&body=' + encodeURIComponent(lines.join('\r\n'));
     return;
   }
-  status.textContent = "This form isn't connected yet, so your message wasn't sent.";
+  status.textContent = "This form isn't connected yet, so your message wasn't sent. Please write to " + CONTACT_EMAIL + " instead.";
 });
 </script>

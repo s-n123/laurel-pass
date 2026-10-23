@@ -44,16 +44,16 @@ ORG = {
 # path: output file; url: public path; kind: website | page | contact | about | faq | notfound
 PAGES = [
     dict(src="home", out="index.html", url="/", kind="website", modified="2026-10-23",
-         title=f"Partner or Sell Your Estate Planning Practice in New York | {ENTITY}",
+         title=f"Partner or Sell Your Estate Planning Practice | {ENTITY}",
          og_title="Your practice. Your clients. A partner who'll still be there.",
-         desc="Liquidity for elder law, estate planning and probate firm owners who keep practicing, and a structured handoff for those who retire. NY metro and northern NJ.",
+         desc="Sell your estate planning, elder law or probate practice in New York or northern NJ on your timeline, or sell a minority stake and keep practicing.",
          og_desc="A partner to elder law, estate planning and probate firms across the New York area and northern New Jersey.",
          cta=False),
     dict(src="partner", url="/partner", kind="page", nav="partner", modified="2026-10-23",
          title=f"Elder Law Practice Succession, Long Island to NJ | {ENTITY}",
-         desc="Own an elder law, estate planning or probate firm on Long Island, in Westchester, NYC or northern NJ? Sell a minority stake and keep practicing."),
+         desc="Own an elder law, estate planning or probate firm on Long Island, in Westchester, NYC or northern NJ? Sell a minority stake to an attorney and keep practicing."),
     dict(src="retire", url="/retire", kind="page", nav="retire", modified="2026-10-23",
-         title=f"Sell Your Elder Law or Probate Practice in NY or NJ | {ENTITY}",
+         title=f"Sell Your Elder Law or Probate Practice in NY/NJ | {ENTITY}",
          desc="Planning retirement from an elder law, estate planning or probate practice in Westchester, Long Island, NYC or northern NJ? A fair purchase under the rules."),
     dict(src="about", url="/about", kind="about", nav="about", modified="2026-10-23",
          title=f"About {ENTITY} | Attorney-led, NY Metro and Northern NJ",
@@ -254,7 +254,7 @@ def render(page):
 {og_url}<meta property="og:image" content="{ORIGIN}/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="{ENTITY}: a partner to elder law, estate planning and probate firms in New York and northern New Jersey">
+<meta property="og:image:alt" content="{ENTITY}: a partner to elder law, estate planning and probate firms in the New York area and northern New Jersey">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon-48.png" sizes="48x48" type="image/png">
@@ -310,7 +310,7 @@ def llms():
 
 > {DESCRIPTION}
 
-{ENTITY} works with owner-operators of elder law, estate planning, and probate and trust administration firms on Long Island, in Westchester, in the five boroughs and in northern New Jersey, typically with roughly $750K–$3M in revenue and one to five attorneys. Owners choose one of two paths: partner and keep practicing (sell a minority stake for liquidity, keep running the practice, have a services team handle marketing, intake, administration and technology under the firm's direction, and hold equity in the platform), or retire on their own timeline (a purchase by a licensed attorney, structured under the professional rules on the sale of a law practice, staff kept, a structured handoff). Firms stay owned by attorneys. Conversations are confidential and covered by an NDA before any details are shared. {DISCLOSURE} Contact: {EMAIL}
+{ENTITY} works with owner-operators of elder law, estate planning, and probate and trust administration firms on Long Island, in Westchester, in the five boroughs and in northern New Jersey, typically with roughly $750K–$3M in revenue and one to five attorneys. Owners choose one of two paths: partner and keep practicing (sell a minority stake to an attorney licensed in the firm's state for liquidity, keep running the practice, have a services team handle marketing, intake, administration and technology under the firm's direction, and hold equity in the platform), or retire on their own timeline (a purchase by an attorney licensed in the owner's state, structured under the professional rules on the sale of a law practice, staff kept, a structured handoff). Firms stay owned by attorneys; {ENTITY} holds no stake in any law firm. Conversations are confidential and covered by an NDA before any details are shared. {DISCLOSURE} Contact: {EMAIL}
 
 ## Start here
 

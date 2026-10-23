@@ -1,4 +1,5 @@
 """Static checks for the built site. Usage: python3 -I check.py <repo_dir>"""
+import html
 import json
 import re
 import sys
@@ -6,7 +7,7 @@ from html.parser import HTMLParser
 from pathlib import Path
 
 ROOT = Path(sys.argv[1])
-ORIGIN = "https://[DOMAIN]"  # keep in step with ORIGIN in build.py
+ORIGIN = re.search(r'^ORIGIN = "(.*)"$', (Path(__file__).parent / "build.py").read_text(), re.M).group(1)
 problems = []
 
 # Wording the positioning rules out. Checked in everything a visitor or crawler can read,
@@ -93,8 +94,10 @@ for f in html_files:
     d = re.search(r'<meta name="description" content="(.*?)">', src).group(1)
     titles.setdefault(t, []).append(f.name)
     descs.setdefault(d, []).append(f.name)
-    if len(d) > 165:
-        problems.append(f"{f.name}: description {len(d)} chars")
+    if len(html.unescape(t)) > 70:
+        problems.append(f"{f.name}: title {len(html.unescape(t))} chars")
+    if len(html.unescape(d)) > 160:
+        problems.append(f"{f.name}: description {len(html.unescape(d))} chars")
     # JSON-LD
     for blob in pg.ld:
         try:

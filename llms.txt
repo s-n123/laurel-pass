@@ -2,7 +2,7 @@
 
 > [ENTITY NAME] is an attorney-led platform that partners with elder law, estate planning and probate firms in the New York metro area and northern New Jersey.
 
-[ENTITY NAME] works with owner-operators of elder law, estate planning, and probate and trust administration firms on Long Island, in Westchester, in the five boroughs and in northern New Jersey, typically with roughly $750K–$3M in revenue and one to five attorneys. Owners choose one of two paths: partner and keep practicing (sell a minority stake for liquidity, keep running the practice, have a services team handle marketing, intake, administration and technology under the firm's direction, and hold equity in the platform), or retire on their own timeline (a purchase by a licensed attorney, structured under the professional rules on the sale of a law practice, staff kept, a structured handoff). Firms stay owned by attorneys. Conversations are confidential and covered by an NDA before any details are shared. [ENTITY NAME] LLC is not a law firm and does not provide legal services. The firms we work with are independently owned and operated by licensed attorneys. Contact: [CONTACT EMAIL]
+[ENTITY NAME] works with owner-operators of elder law, estate planning, and probate and trust administration firms on Long Island, in Westchester, in the five boroughs and in northern New Jersey, typically with roughly $750K–$3M in revenue and one to five attorneys. Owners choose one of two paths: partner and keep practicing (sell a minority stake to an attorney licensed in the firm's state for liquidity, keep running the practice, have a services team handle marketing, intake, administration and technology under the firm's direction, and hold equity in the platform), or retire on their own timeline (a purchase by an attorney licensed in the owner's state, structured under the professional rules on the sale of a law practice, staff kept, a structured handoff). Firms stay owned by attorneys; [ENTITY NAME] holds no stake in any law firm. Conversations are confidential and covered by an NDA before any details are shared. [ENTITY NAME] LLC is not a law firm and does not provide legal services. The firms we work with are independently owned and operated by licensed attorneys. Contact: [CONTACT EMAIL]
 
 ## Start here
 
@@ -10,8 +10,8 @@
 
 ## Pages
 
-- [Elder Law Practice Succession, Long Island to NJ](https://[DOMAIN]/partner): Own an elder law, estate planning or probate firm on Long Island, in Westchester, NYC or northern NJ? Sell a minority stake and keep practicing.
-- [Sell Your Elder Law or Probate Practice in NY or NJ](https://[DOMAIN]/retire): Planning retirement from an elder law, estate planning or probate practice in Westchester, Long Island, NYC or northern NJ? A fair purchase under the rules.
+- [Elder Law Practice Succession, Long Island to NJ](https://[DOMAIN]/partner): Own an elder law, estate planning or probate firm on Long Island, in Westchester, NYC or northern NJ? Sell a minority stake to an attorney and keep practicing.
+- [Sell Your Elder Law or Probate Practice in NY/NJ](https://[DOMAIN]/retire): Planning retirement from an elder law, estate planning or probate practice in Westchester, Long Island, NYC or northern NJ? A fair purchase under the rules.
 - [About [ENTITY NAME]](https://[DOMAIN]/about): An attorney-led platform partnering with elder law, estate planning and probate firms in the New York metro area and northern New Jersey: what it does and why.
 - [Estate Planning and Elder Law Practice Owner FAQ](https://[DOMAIN]/faq): Who owns the firm, what happens to staff, client files and original wills, how price and financing work, timing, fees and confidentiality. Plain answers.
 - [Start a Confidential Conversation](https://[DOMAIN]/contact): Tell us about your elder law, estate planning or probate practice. You'll hear back within two business days, and nothing goes to anyone else without an NDA.
