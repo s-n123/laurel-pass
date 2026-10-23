@@ -34,6 +34,9 @@ Set each of these once at the top of `build.py`, then rebuild:
 - `FORM_TARGET` — where the contact form sends: a form endpoint URL (for example
   Formspree), or an inbox address, which opens the visitor's email app instead.
 
+After setting `ENTITY`, also set it in `og-image.mjs` and run `node _build/og-image.mjs`
+from the repo root to redraw the share image, which has the name drawn into it.
+
 Removed pages are redirected in `/vercel.json`.
 
 When the LinkedIn company page and Crunchbase profile exist, add their URLs as

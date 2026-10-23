@@ -9,6 +9,22 @@ ROOT = Path(sys.argv[1])
 ORIGIN = "https://[DOMAIN]"  # keep in step with ORIGIN in build.py
 problems = []
 
+# Wording the positioning rules out. Checked in everything a visitor or crawler can read,
+# including meta tags, JSON-LD, llms.txt, robots.txt and the sitemap. vercel.json is exempt:
+# its redirects must name the old URLs.
+BANNED = [r"\bDWI\b", r"\bDUI\b", r"criminal", r"personal injury", r"\bacquir", r"\bacquisition",
+          r"private equity", r"\bMSO\b", r"roll-?up", r"\bpremier\b", r"\bpremium\b", r"\bleading\b",
+          r"\bcheaper\b", r"platform play", r"\bour (attorneys|lawyers|law firms?|team)\b",
+          r"we handle cases", r"paid at closing", r"cash at closing", r"\bmultiples?\b", r"laurel",
+          r"spencer", r"\bM&(amp;)?A\b", r"large-firm"]
+DISCLOSURE_RE = r"\S+(?: \S+)*? LLC is not a law firm and does not provide legal services\."
+
+
+def banned_in(name, content):
+    for pat in BANNED:
+        for m in re.finditer(pat, content, re.I):
+            problems.append(f"{name}: banned or stale wording '{m.group(0)}'")
+
 
 class Page(HTMLParser):
     def __init__(self):
@@ -65,6 +81,10 @@ for f in html_files:
     pg.feed(src)
     parsed[f] = (src, pg)
     text = re.sub(r"\s+", " ", "".join(pg.text))
+    banned_in(f.name, src)
+    llc = len(re.findall(r"\bLLC\b", src))
+    if llc != 1 or not re.search(r"<footer.*" + DISCLOSURE_RE, src, re.S):
+        problems.append(f"{f.name}: 'LLC' should appear once, in the footer disclosure (found {llc})")
     t = re.search(r"<title>(.*?)</title>", src).group(1)
     d = re.search(r'<meta name="description" content="(.*?)">', src).group(1)
     titles.setdefault(t, []).append(f.name)
@@ -135,6 +155,9 @@ for f, (src, _) in parsed.items():
             problems.append(f"{f.name}: canonical points nowhere")
 if locs != canons:
     problems.append(f"sitemap/canonical mismatch: only sitemap {locs - canons}, only canonical {canons - locs}")
+
+for extra in ("llms.txt", "robots.txt", "sitemap.xml"):
+    banned_in(extra, (ROOT / extra).read_text())
 
 print(f"{len(html_files)} pages, {len(locs)} sitemap URLs")
 print("\n".join(problems) if problems else "No problems found")

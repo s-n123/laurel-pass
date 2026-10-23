@@ -5,7 +5,11 @@
     <lastmod>2026-10-23</lastmod>
   </url>
   <url>
-    <loc>https://[DOMAIN]/faq</loc>
+    <loc>https://[DOMAIN]/partner</loc>
+    <lastmod>2026-10-23</lastmod>
+  </url>
+  <url>
+    <loc>https://[DOMAIN]/retire</loc>
     <lastmod>2026-10-23</lastmod>
   </url>
   <url>
@@ -13,11 +17,7 @@
     <lastmod>2026-10-23</lastmod>
   </url>
   <url>
-    <loc>https://[DOMAIN]/partner</loc>
-    <lastmod>2026-10-23</lastmod>
-  </url>
-  <url>
-    <loc>https://[DOMAIN]/retire</loc>
+    <loc>https://[DOMAIN]/faq</loc>
     <lastmod>2026-10-23</lastmod>
   </url>
   <url>

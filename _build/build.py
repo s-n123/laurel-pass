@@ -33,13 +33,12 @@ ORG = {
     "image": ORIGIN + "/og-image.png",
     "description": DESCRIPTION,
     "email": EMAIL,
-    "address": {"@type": "PostalAddress", "addressLocality": "New York",
-                "addressRegion": "NY", "addressCountry": "US"},
     "areaServed": ["New York City", "Nassau County, NY", "Suffolk County, NY",
-                   "Westchester County, NY"],
-    "knowsAbout": ["Law practice acquisitions",
-                   "Sale of a law practice under New York Rule 1.17",
-                   "DWI defense practices"],
+                   "Westchester County, NY", "Northern New Jersey"],
+    "knowsAbout": ["Elder law practice succession",
+                   "Estate planning practice succession",
+                   "Probate and trust administration practices",
+                   "Sale of a law practice under Rule 1.17"],
 }
 
 # path: output file; url: public path; kind: website | guide | article | faq | about | page
@@ -50,18 +49,18 @@ PAGES = [
          desc="Liquidity for elder law, estate planning and probate firm owners who want to keep practicing, and a structured handoff for those ready to retire. NY metro and NJ.",
          og_desc="A partner to elder law, estate planning and probate firms across the New York area and northern New Jersey.",
          cta=False),
-    dict(src="faq", url="/faq", kind="faq", nav="faq", modified="2026-10-23",
-         title=f"FAQ: Partnering or Retiring From an Estate Planning or Elder Law Practice | {ENTITY}",
-         desc="Who owns the firm, what happens to staff, client files and original wills, how price and financing work, timing, fees and confidentiality. Plain answers."),
-    dict(src="about", url="/about", kind="about", nav="about", modified="2026-10-23",
-         title=f"About {ENTITY} | Attorney-led partner to elder law and estate planning firms",
-         desc="An attorney-led platform that partners with elder law, estate planning and probate firms in the New York metro area and northern New Jersey, and why."),
     dict(src="partner", url="/partner", kind="page", nav="partner", modified="2026-10-23",
          title=f"Elder Law Practice Succession: Partner and Keep Practicing | {ENTITY}",
          desc="Own an elder law, estate planning or probate firm on Long Island, in Westchester, NYC or northern NJ? Sell a minority stake, keep practicing, get a services team."),
     dict(src="retire", url="/retire", kind="page", nav="retire", modified="2026-10-23",
          title=f"Sell Your Estate Planning, Elder Law or Probate Practice in NY or NJ | {ENTITY}",
          desc="Retiring from an estate planning, elder law or probate practice in New York or northern New Jersey? A fair purchase under the sale-of-practice rules, staff kept."),
+    dict(src="about", url="/about", kind="about", nav="about", modified="2026-10-23",
+         title=f"About {ENTITY} | Attorney-led partner to elder law and estate planning firms",
+         desc="An attorney-led platform that partners with elder law, estate planning and probate firms in the New York metro area and northern New Jersey, and why."),
+    dict(src="faq", url="/faq", kind="faq", nav="faq", modified="2026-10-23",
+         title=f"FAQ: Partnering or Retiring From an Estate Planning or Elder Law Practice | {ENTITY}",
+         desc="Who owns the firm, what happens to staff, client files and original wills, how price and financing work, timing, fees and confidentiality. Plain answers."),
     dict(src="contact", url="/contact", kind="page", nav=None, cta=False, modified="2026-10-23",
          title=f"Start a Confidential Conversation | {ENTITY}",
          desc="Tell us about your elder law, estate planning or probate practice. You'll hear back within two business days, and nothing is shared without an NDA."),
@@ -132,6 +131,9 @@ def schema_for(page, body):
     elif kind == "faq":
         graph.append({"@type": "FAQPage", "@id": url + "#faq", "url": url,
                       "mainEntity": faq_entities(body)})
+    elif kind == "page":
+        graph.append({"@type": "WebPage", "@id": url + "#page", "url": url, "name": h1_of(body),
+                      "description": page["desc"], "about": {"@id": ORG["@id"]}})
     elif kind == "about":
         graph.append({"@type": "AboutPage", "@id": url + "#page", "url": url, "name": h1_of(body),
                       "about": {"@id": ORG["@id"]}})
@@ -249,7 +251,7 @@ def render(page):
 {og_url}<meta property="og:image" content="{ORIGIN}/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="{ENTITY}: attorney-led law practice acquisitions in New York">
+<meta property="og:image:alt" content="{ENTITY}: a partner to elder law, estate planning and probate firms in New York and northern New Jersey">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon-48.png" sizes="48x48" type="image/png">
@@ -299,34 +301,21 @@ def sitemap():
 
 
 def llms():
-    groups = {"guide": [], "article": [], "rest": []}
-    for p in PAGES:
-        if p.get("noindex") or p["url"] == "/":
-            continue
-        name = p["title"].split(" | ")[0]
-        line = f"- [{name}]({ORIGIN}{p['url']}): {p['desc']}"
-        groups[p["kind"] if p["kind"] in groups else "rest"].append(line)
+    pages = [p for p in PAGES if not p.get("noindex") and p["url"] != "/"]
+    lines = "\n".join(f"- [{p['title'].split(' | ')[0]}]({ORIGIN}{p['url']}): {p['desc']}" for p in pages)
     text = f"""# {ENTITY}
 
 > {DESCRIPTION}
 
-{ENTITY} is an attorney-led firm that buys and runs established DWI, criminal-defense and other flat-fee practices in New York City, Long Island and Westchester. Practices stay lawyer-owned, staff and client relationships carry over, and every conversation is confidential. Most of the price is paid at closing. Contact: {EMAIL}
+{ENTITY} works with owner-operators of elder law, estate planning, and probate and trust administration firms on Long Island, in Westchester, in the five boroughs and in northern New Jersey, typically with roughly $750K–$3M in revenue and one to five attorneys. Owners choose one of two paths: partner and keep practicing (sell a minority stake for liquidity, keep running the practice, hand marketing, intake, administration and technology to a services team, and hold equity in the platform), or retire on their own timeline (a purchase structured under the professional rules on the sale of a law practice, staff kept, a structured handoff). Firms stay owned by attorneys. Conversations are confidential and covered by an NDA before any details are shared. {DISCLOSURE} Contact: {EMAIL}
 
 ## Start here
 
-- [{ENTITY}]({ORIGIN}/): Who we are, what we look for (DWI/DUI defense first, other flat-fee practices welcome; $500K–$5M in annual fees; New York City, Long Island and Westchester) and how to start a confidential conversation.
+- [{ENTITY}]({ORIGIN}/): The two paths, what stays the same, what the services team handles, what we look for, and how a conversation works.
 
-## Guides for practice owners
+## Pages
 
-{chr(10).join(groups["guide"])}
-
-## About and contact
-
-{chr(10).join(groups["rest"])}
-
-## Articles
-
-{chr(10).join(groups["article"])}
+{lines}
 """
     (OUT / "llms.txt").write_text(text)
 
