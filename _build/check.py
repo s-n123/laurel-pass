@@ -6,7 +6,7 @@ from html.parser import HTMLParser
 from pathlib import Path
 
 ROOT = Path(sys.argv[1])
-ORIGIN = "https://laurelpasspartners.com"
+ORIGIN = "https://laurelwaypartners.com"
 problems = []
 
 
