@@ -20,8 +20,8 @@ EMAIL = "[CONTACT EMAIL]"
 FORM_TARGET = "[FORM ENDPOINT OR INBOX]"
 DISCLOSURE = (f"{ENTITY} LLC is not a law firm and does not provide legal services. The firms we "
               "work with are independently owned and operated by licensed attorneys.")
-DESCRIPTION = (f"{ENTITY} acquires established DWI and criminal-defense law "
-               "practices in the New York City area from owners ready to step back.")
+DESCRIPTION = (f"{ENTITY} is an attorney-led platform that partners with elder law, estate planning "
+               "and probate firms in the New York metro area and northern New Jersey.")
 PUBLISHED = "2026-10-18"
 
 ORG = {
@@ -44,11 +44,11 @@ ORG = {
 
 # path: output file; url: public path; kind: website | guide | article | faq | about | page
 PAGES = [
-    dict(src="home", out="index.html", url="/", kind="website",
-         title=f"{ENTITY} | Attorney-led law practice acquisitions",
-         og_title=f"{ENTITY}",
-         desc=f"{ENTITY} buys established DWI and flat-fee law practices from New York owners ready to step back. Lawyer-owned and confidential.",
-         og_desc="A clean exit for the DWI practice you built. Attorney-led, lawyer-owned and confidential.",
+    dict(src="home", out="index.html", url="/", kind="website", modified="2026-10-23",
+         title=f"Partner or Sell Your Estate Planning Practice in New York and New Jersey | {ENTITY}",
+         og_title="Your practice. Your clients. A partner who'll still be there.",
+         desc="Liquidity for elder law, estate planning and probate firm owners who want to keep practicing, and a structured handoff for those ready to retire. NY metro and NJ.",
+         og_desc="A partner to elder law, estate planning and probate firms across the New York area and northern New Jersey.",
          cta=False),
     dict(src="how-a-sale-works", url="/how-a-sale-works", kind="guide", nav="how",
          title=f"How a Law Practice Sale Works in New York | {ENTITY}",
@@ -65,12 +65,12 @@ PAGES = [
     dict(src="your-options", url="/your-options", kind="guide", nav="guides",
          title=f"Private Equity or a Lawyer? Your Options for Selling a New York Law Practice | {ENTITY}",
          desc="Attorney buyer, merger, broker, private equity through an MSO, or winding down: how each option works for a New York law practice owner."),
-    dict(src="faq", url="/faq", kind="faq", nav="faq",
-         title=f"Questions About Selling Your Law Practice | {ENTITY} FAQ",
-         desc=f"Answers to common questions from New York practice owners about selling to {ENTITY}: who we are, what we buy, price and timing, clients, staff and taxes."),
-    dict(src="about", url="/about", kind="about", nav="about",
-         title=f"About {ENTITY} | Attorney-led practice acquisitions",
-         desc=f"{ENTITY} is led by a New York attorney with a background in large-firm M&A and tax. What we do, how we work and what we believe about practice sales."),
+    dict(src="faq", url="/faq", kind="faq", nav="faq", modified="2026-10-23",
+         title=f"FAQ: Partnering or Retiring From an Estate Planning or Elder Law Practice | {ENTITY}",
+         desc="Who owns the firm, what happens to staff, client files and original wills, how price and financing work, timing, fees and confidentiality. Plain answers."),
+    dict(src="about", url="/about", kind="about", nav="about", modified="2026-10-23",
+         title=f"About {ENTITY} | Attorney-led partner to elder law and estate planning firms",
+         desc="An attorney-led platform that partners with elder law, estate planning and probate firms in the New York metro area and northern New Jersey, and why."),
     dict(src="referral-partners", url="/referral-partners", kind="page", nav=None,
          title=f"Law Practice Buyer in New York: For Brokers, CPAs and Advisors | {ENTITY}",
          desc=f"What {ENTITY} buys, what we need for a first look, and how we treat the practice owners that brokers, CPAs and bar succession advisors introduce."),
@@ -94,8 +94,11 @@ PAGES = [
          desc="Tell us about your elder law, estate planning or probate practice. You'll hear back within two business days, and nothing is shared without an NDA."),
     dict(src="404", out="404.html", url="/404", kind="notfound", noindex=True, cta=False,
          title=f"Page not found | {ENTITY}",
-         desc=f"This page doesn't exist. Find guides for New York law practice owners or start a confidential conversation with {ENTITY}."),
+         desc="This page doesn't exist. Read about partnering or retiring, see common questions, or start a confidential conversation."),
 ]
+
+FAQ_PREVIEW = ["Who will own my firm?", "Do I have to stop practicing?", "Is this confidential?",
+               "Do you charge sellers anything?", "What if I'm not ready yet?"]
 
 NAV = [("partner", "/partner", "Keep practicing"),
        ("retire", "/retire", "Retire"),
@@ -243,6 +246,10 @@ def render(page):
     script = ""
     if "<!--SCRIPT-->" in body:
         body, script = body.split("<!--SCRIPT-->", 1)
+    if "<!--FAQ_PREVIEW-->" in body:
+        faq = (SRC / "faq.html").read_text()
+        blocks = {text_of(q): m for m, q in re.findall(r"(<details><summary>(.*?)</summary>.*?</details>)", faq, re.S)}
+        body = body.replace("<!--FAQ_PREVIEW-->", "\n".join(blocks[q] for q in FAQ_PREVIEW))
     if "<!--CONTACT_FORM-->" in body:
         form = (SRC / "partials" / "contact-form.html").read_text().replace("{action}", form_action())
         body = body.replace("<!--CONTACT_FORM-->", form.strip())
