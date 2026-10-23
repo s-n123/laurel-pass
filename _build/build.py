@@ -16,6 +16,8 @@ OUT = Path(sys.argv[2])
 ENTITY = "[ENTITY NAME]"
 ORIGIN = "https://[DOMAIN]"
 EMAIL = "[CONTACT EMAIL]"
+# Where the contact form sends: a form endpoint URL (e.g. Formspree) or an inbox address.
+FORM_TARGET = "[FORM ENDPOINT OR INBOX]"
 DISCLOSURE = (f"{ENTITY} LLC is not a law firm and does not provide legal services. The firms we "
               "work with are independently owned and operated by licensed attorneys.")
 DESCRIPTION = (f"{ENTITY} acquires established DWI and criminal-defense law "
@@ -81,15 +83,24 @@ PAGES = [
     dict(src="article-firm-name", url="/insights/can-your-firm-name-stay-on-the-door", kind="article", nav="guides",
          title=f"Can Your Firm Name Stay on the Door After You Sell? | {ENTITY}",
          desc="What New York allows when a buyer wants to keep a selling lawyer's firm name, and how to plan a name change."),
+    dict(src="partner", url="/partner", kind="page", nav="partner", modified="2026-10-23",
+         title=f"Elder Law Practice Succession: Partner and Keep Practicing | {ENTITY}",
+         desc="Own an elder law, estate planning or probate firm on Long Island, in Westchester, NYC or northern NJ? Sell a minority stake, keep practicing, get a services team."),
+    dict(src="retire", url="/retire", kind="page", nav="retire", modified="2026-10-23",
+         title=f"Sell Your Estate Planning, Elder Law or Probate Practice in NY or NJ | {ENTITY}",
+         desc="Retiring from an estate planning, elder law or probate practice in New York or northern New Jersey? A fair purchase under the sale-of-practice rules, staff kept."),
+    dict(src="contact", url="/contact", kind="page", nav=None, cta=False, modified="2026-10-23",
+         title=f"Start a Confidential Conversation | {ENTITY}",
+         desc="Tell us about your elder law, estate planning or probate practice. You'll hear back within two business days, and nothing is shared without an NDA."),
     dict(src="404", out="404.html", url="/404", kind="notfound", noindex=True, cta=False,
          title=f"Page not found | {ENTITY}",
          desc=f"This page doesn't exist. Find guides for New York law practice owners or start a confidential conversation with {ENTITY}."),
 ]
 
-NAV = [("how", "/how-a-sale-works", "How a sale works"),
-       ("guides", "/insights", "Guides"),
-       ("faq", "/faq", "FAQ"),
-       ("about", "/about", "About")]
+NAV = [("partner", "/partner", "Keep practicing"),
+       ("retire", "/retire", "Retire"),
+       ("about", "/about", "About"),
+       ("faq", "/faq", "FAQ")]
 
 LOGO_SVG = ('<svg width="30" height="30" viewBox="0 0 28 28" fill="none" stroke="#7A2E2A" '
             'stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
@@ -170,7 +181,7 @@ def header(page):
 </a>
 <nav class="row site-nav" aria-label="Main">
 {chr(10).join(links)}
-<a class="btn btn-primary" href="/#contact">Start a confidential conversation</a>
+<a class="btn btn-primary" href="/contact">Start a confidential conversation</a>
 </nav>
 </div>
 </header>"""
@@ -179,7 +190,7 @@ def header(page):
 CTA = """<section class="dark cta-band">
 <div class="wrap row">
 <h2>Thinking about what comes next for your practice? Start with a confidential conversation.</h2>
-<a class="btn btn-primary" href="/#contact" style="font-size:17px">Start a confidential conversation</a>
+<a class="btn btn-primary" href="/contact" style="font-size:17px">Start a confidential conversation</a>
 </div>
 </section>"""
 
@@ -192,23 +203,19 @@ FOOTER = f"""<footer class="dark site-footer">
 <p><a href="mailto:{EMAIL}">{EMAIL}</a></p>
 </div>
 <div>
-<h2>Selling your practice</h2>
+<h2>Two ways to work together</h2>
 <ul>
-<li><a href="/how-a-sale-works">How a sale works</a></li>
-<li><a href="/selling-a-dwi-practice-in-new-york">Selling a DWI practice in New York</a></li>
-<li><a href="/what-is-my-practice-worth">What is my practice worth?</a></li>
-<li><a href="/how-the-sale-is-taxed">How the sale is taxed</a></li>
-<li><a href="/your-options">Your options</a></li>
+<li><a href="/partner">Partner and keep practicing</a></li>
+<li><a href="/retire">Retire on your timeline</a></li>
+<li><a href="/#how">How a conversation works</a></li>
 </ul>
 </div>
 <div>
-<h2>{ENTITY}</h2>
+<h2>More</h2>
 <ul>
 <li><a href="/about">About</a></li>
 <li><a href="/faq">FAQ</a></li>
-<li><a href="/insights">Guides and insights</a></li>
-<li><a href="/referral-partners">For brokers and advisors</a></li>
-<li><a href="/#contact">Start a confidential conversation</a></li>
+<li><a href="/contact">Start a confidential conversation</a></li>
 </ul>
 </div>
 </div>
@@ -223,11 +230,23 @@ ANALYTICS = """<script>window.va = window.va || function () { (window.vaq = wind
 <script defer src="/_vercel/insights/script.js"></script>"""
 
 
+def form_action():
+    if FORM_TARGET.startswith(("https://", "http://")):
+        return f' action="{FORM_TARGET}"'
+    if re.fullmatch(r"[^\s@\[\]]+@[^\s@\[\]]+", FORM_TARGET):
+        return f' action="mailto:{FORM_TARGET}" enctype="text/plain"'
+    return ""
+
+
 def render(page):
     body = (SRC / (page["src"] + ".html")).read_text()
     script = ""
     if "<!--SCRIPT-->" in body:
         body, script = body.split("<!--SCRIPT-->", 1)
+    if "<!--CONTACT_FORM-->" in body:
+        form = (SRC / "partials" / "contact-form.html").read_text().replace("{action}", form_action())
+        body = body.replace("<!--CONTACT_FORM-->", form.strip())
+        script += (SRC / "partials" / "contact-form-script.html").read_text().replace("{target}", FORM_TARGET)
     url = ORIGIN + page["url"]
     og_type = "article" if page["kind"] in ("guide", "article") else "website"
     e = html.escape
