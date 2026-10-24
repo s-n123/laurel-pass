@@ -4,7 +4,59 @@
   "headers": [
     {
       "source": "/_build/(.*)",
-      "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex"
+        }
+      ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/how-a-sale-works",
+      "destination": "/retire",
+      "permanent": true
+    },
+    {
+      "source": "/selling-a-dwi-practice-in-new-york",
+      "destination": "/retire",
+      "permanent": true
+    },
+    {
+      "source": "/what-is-my-practice-worth",
+      "destination": "/faq",
+      "permanent": true
+    },
+    {
+      "source": "/how-the-sale-is-taxed",
+      "destination": "/retire",
+      "permanent": true
+    },
+    {
+      "source": "/your-options",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/referral-partners",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/insights",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/insights/what-happens-to-your-clients-when-you-sell",
+      "destination": "/retire",
+      "permanent": true
+    },
+    {
+      "source": "/insights/can-your-firm-name-stay-on-the-door",
+      "destination": "/retire",
+      "permanent": true
     }
   ]
 }

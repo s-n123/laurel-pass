@@ -4,4 +4,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://laurelpasspartners.com/sitemap.xml
+Sitemap: https://laurelwaypartners.com/sitemap.xml

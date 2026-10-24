@@ -12,83 +12,74 @@ from pathlib import Path
 SRC = Path(sys.argv[1])
 OUT = Path(sys.argv[2])
 
-ORIGIN = "https://laurelpasspartners.com"
-EMAIL = "spencer@laurelpasspartners.com"
-DESCRIPTION = ("Laurel Pass Partners acquires established DWI and criminal-defense law "
-               "practices in the New York City area from owners ready to step back.")
-PUBLISHED = "2026-10-18"
+# The entity name, domain and contact address, each set once here. Page sources write the name
+# as the token [ENTITY NAME]; render() swaps in ENTITY.
+ENTITY = "Laurel Way Partners"
+ORIGIN = "https://laurelwaypartners.com"
+EMAIL = "hello@laurelwaypartners.com"
+# Where the contact form sends: a form endpoint URL (e.g. Formspree) or an inbox address.
+FORM_TARGET = EMAIL
+DISCLOSURE = (f"{ENTITY} LLC is not a law firm and does not provide legal services. The firms we "
+              "work with are independently owned and operated by licensed attorneys.")
+DESCRIPTION = (f"{ENTITY} is an attorney-led platform that partners with elder law, estate planning "
+               "and probate firms in the New York metro area and northern New Jersey.")
+PUBLISHED = "2026-10-23"
 
 ORG = {
     "@type": "Organization",
     "@id": ORIGIN + "/#organization",
-    "name": "Laurel Pass Partners",
+    "name": ENTITY,
     "url": ORIGIN + "/",
     "logo": ORIGIN + "/logo.png",
     "image": ORIGIN + "/og-image.png",
     "description": DESCRIPTION,
     "email": EMAIL,
-    "address": {"@type": "PostalAddress", "addressLocality": "New York",
-                "addressRegion": "NY", "addressCountry": "US"},
     "areaServed": ["New York City", "Nassau County, NY", "Suffolk County, NY",
-                   "Westchester County, NY"],
-    "knowsAbout": ["Law practice acquisitions",
-                   "Sale of a law practice under New York Rule 1.17",
-                   "DWI defense practices"],
+                   "Westchester County, NY", "Northern New Jersey"],
+    "knowsAbout": ["Elder law practice succession",
+                   "Estate planning practice succession",
+                   "Probate and trust administration practices",
+                   "Sale of a law practice under Rule 1.17"],
 }
 
-# path: output file; url: public path; kind: website | guide | article | faq | about | page
+# path: output file; url: public path; kind: website | page | contact | about | faq | notfound
 PAGES = [
-    dict(src="home", out="index.html", url="/", kind="website",
-         title="Laurel Pass Partners | Attorney-led law practice acquisitions",
-         og_title="Laurel Pass Partners",
-         desc="Laurel Pass Partners buys established DWI and flat-fee law practices from New York owners ready to step back. Lawyer-owned and confidential.",
-         og_desc="A clean exit for the DWI practice you built. Attorney-led, lawyer-owned and confidential.",
+    dict(src="home", out="index.html", url="/", kind="website", modified="2026-10-23",
+         title=f"Partner or Sell Your Estate Planning Practice | {ENTITY}",
+         og_title="Your practice. Your clients. A partner who'll still be there.",
+         desc="Sell your estate planning, elder law or probate practice in New York or northern NJ on your timeline, or sell a minority stake and keep practicing.",
+         og_desc="A partner to elder law, estate planning and probate firms across the New York area and northern New Jersey.",
          cta=False),
-    dict(src="how-a-sale-works", url="/how-a-sale-works", kind="guide", nav="how",
-         title="How a Law Practice Sale Works in New York | Laurel Pass Partners",
-         desc="How selling your New York law practice to Laurel Pass Partners works: the confidential first call, what we review, the letter of intent, client notices and closing."),
-    dict(src="selling-a-dwi-practice-in-new-york", url="/selling-a-dwi-practice-in-new-york", kind="guide", nav="guides",
-         title="Selling a DWI Practice in New York: A Guide for Owners | Laurel Pass Partners",
-         desc="How to sell a DWI defense practice in New York under Rule 1.17: client notice, open matters and prepaid fees, staff, timeline and choosing the right buyer."),
-    dict(src="what-is-my-practice-worth", url="/what-is-my-practice-worth", kind="guide", nav="guides",
-         title="What Is My Law Practice Worth? Valuing a Flat-Fee Practice | Laurel Pass Partners",
-         desc="What drives the value of a DWI or other flat-fee law practice, how buyers measure earnings, how payment terms change the price, and what to gather first."),
-    dict(src="how-the-sale-is-taxed", url="/how-the-sale-is-taxed", kind="guide", nav="guides",
-         title="How Is the Sale of a Law Practice Taxed? | Laurel Pass Partners",
-         desc="Questions for your accountant before you sell a law practice: price allocation and Form 8594, personal goodwill, seller notes, earnouts and transition pay."),
-    dict(src="your-options", url="/your-options", kind="guide", nav="guides",
-         title="Private Equity or a Lawyer? Your Options for Selling a New York Law Practice | Laurel Pass Partners",
-         desc="Attorney buyer, merger, broker, private equity through an MSO, or winding down: how each option works for a New York law practice owner."),
-    dict(src="faq", url="/faq", kind="faq", nav="faq",
-         title="Questions About Selling Your Law Practice | Laurel Pass Partners FAQ",
-         desc="Answers to common questions from New York practice owners about selling to Laurel Pass Partners: who we are, what we buy, price and timing, clients, staff and taxes."),
-    dict(src="about", url="/about", kind="about", nav="about",
-         title="About Laurel Pass Partners | Attorney-led practice acquisitions",
-         desc="Laurel Pass Partners is led by a New York attorney with a background in large-firm M&A and tax. What we do, how we work and what we believe about practice sales."),
-    dict(src="referral-partners", url="/referral-partners", kind="page", nav=None,
-         title="Law Practice Buyer in New York: For Brokers, CPAs and Advisors | Laurel Pass Partners",
-         desc="What Laurel Pass Partners buys, what we need for a first look, and how we treat the practice owners that brokers, CPAs and bar succession advisors introduce."),
-    dict(src="insights", url="/insights", kind="page", nav="guides",
-         title="Guides and Insights for Law Practice Owners | Laurel Pass Partners",
-         desc="Plain-English guides and dated articles for New York lawyers thinking about selling a practice: the sale process, valuation, taxes, client notice and succession."),
-    dict(src="article-clients", url="/insights/what-happens-to-your-clients-when-you-sell", kind="article", nav="guides",
-         title="What Happens to Your Clients When You Sell a New York Practice | Laurel Pass Partners",
-         desc="Under New York Rule 1.17, clients get a joint written notice, can choose other counsel, and keep their fee agreements. How that works in practice."),
-    dict(src="article-firm-name", url="/insights/can-your-firm-name-stay-on-the-door", kind="article", nav="guides",
-         title="Can Your Firm Name Stay on the Door After You Sell? | Laurel Pass Partners",
-         desc="What New York allows when a buyer wants to keep a selling lawyer's firm name, and how to plan a name change."),
+    dict(src="partner", url="/partner", kind="page", nav="partner", modified="2026-10-23",
+         title=f"Elder Law Practice Succession, Long Island to NJ | {ENTITY}",
+         desc="Own an elder law, estate planning or probate firm on Long Island, in Westchester, NYC or northern NJ? Sell a minority stake to an attorney and keep practicing."),
+    dict(src="retire", url="/retire", kind="page", nav="retire", modified="2026-10-23",
+         title=f"Sell Your Elder Law or Probate Practice in NY/NJ | {ENTITY}",
+         desc="Planning retirement from an elder law, estate planning or probate practice in Westchester, Long Island, NYC or northern NJ? A fair purchase under the rules."),
+    dict(src="about", url="/about", kind="about", nav="about", modified="2026-10-23",
+         title=f"About {ENTITY} | Attorney-led, NY Metro and Northern NJ",
+         desc="An attorney-led platform partnering with elder law, estate planning and probate firms in the New York metro area and northern New Jersey: what it does and why."),
+    dict(src="faq", url="/faq", kind="faq", nav="faq", modified="2026-10-23",
+         title=f"Estate Planning and Elder Law Practice Owner FAQ | {ENTITY}",
+         desc="Who owns the firm, what happens to staff, client files and original wills, how price and financing work, timing, fees and confidentiality. Plain answers."),
+    dict(src="contact", url="/contact", kind="contact", nav=None, cta=False, modified="2026-10-23",
+         title=f"Start a Confidential Conversation | {ENTITY}",
+         desc="Tell us about your elder law, estate planning or probate practice. You'll hear back within two business days, and nothing goes to anyone else without an NDA."),
     dict(src="404", out="404.html", url="/404", kind="notfound", noindex=True, cta=False,
-         title="Page not found | Laurel Pass Partners",
-         desc="This page doesn't exist. Find guides for New York law practice owners or start a confidential conversation with Laurel Pass Partners."),
+         title=f"Page not found | {ENTITY}",
+         desc="This page doesn't exist. Read about partnering or retiring, see common questions, or start a confidential conversation."),
 ]
 
-NAV = [("how", "/how-a-sale-works", "How a sale works"),
-       ("guides", "/insights", "Guides"),
-       ("faq", "/faq", "FAQ"),
-       ("about", "/about", "About")]
+FAQ_PREVIEW = ["Who will own my firm?", "Do I have to stop practicing?", "Is this confidential?",
+               "Do you charge sellers anything?", "What if I'm not ready yet?"]
 
-LOGO_SVG = ('<svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="#1E5B45" '
-            'stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+NAV = [("partner", "/partner", "Keep practicing"),
+       ("retire", "/retire", "Retire"),
+       ("about", "/about", "About"),
+       ("faq", "/faq", "FAQ")]
+
+LOGO_SVG = ('<svg width="30" height="30" viewBox="0 0 28 28" fill="none" stroke="#7A2E2A" '
+            'stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
             '<path d="M14 26V5"/><path d="M14 21C10 21 7.5 18.5 7 15C10.5 15.2 13 17.5 14 21Z"/>'
             '<path d="M14 21C18 21 20.5 18.5 21 15C17.5 15.2 15 17.5 14 21Z"/>'
             '<path d="M14 14C10.5 14 8.5 11.8 8 8.8C11 9 13.2 11 14 14Z"/>'
@@ -129,21 +120,20 @@ def schema_for(page, body):
     graph = [ORG]
     kind = page["kind"]
     if kind == "website":
-        graph.append({"@type": "WebSite", "@id": ORIGIN + "/#website", "name": "Laurel Pass Partners",
+        graph.append({"@type": "WebSite", "@id": ORIGIN + "/#website", "name": ENTITY,
                       "url": ORIGIN + "/", "publisher": {"@id": ORG["@id"]}})
-    elif kind in ("guide", "article"):
-        graph.append({"@type": "Article", "@id": url + "#article", "headline": h1_of(body),
-                      "description": page["desc"], "url": url, "mainEntityOfPage": url,
-                      "image": ORIGIN + "/og-image.png", "inLanguage": "en-US",
-                      "datePublished": page.get("published", PUBLISHED),
-                      "dateModified": page.get("modified", PUBLISHED),
-                      "author": {"@id": ORG["@id"]}, "publisher": {"@id": ORG["@id"]}})
+        graph.append({"@type": "WebPage", "@id": url + "#page", "url": url, "name": page["og_title"],
+                      "description": page["desc"], "isPartOf": {"@id": ORIGIN + "/#website"},
+                      "about": {"@id": ORG["@id"]}})
     elif kind == "faq":
         graph.append({"@type": "FAQPage", "@id": url + "#faq", "url": url,
                       "mainEntity": faq_entities(body)})
+    elif kind in ("page", "contact"):
+        graph.append({"@type": "ContactPage" if kind == "contact" else "WebPage", "@id": url + "#page", "url": url, "name": h1_of(body),
+                      "description": page["desc"], "about": {"@id": ORG["@id"]}})
     elif kind == "about":
         graph.append({"@type": "AboutPage", "@id": url + "#page", "url": url, "name": h1_of(body),
-                      "about": {"@id": ORG["@id"]}})
+                      "description": page["desc"], "about": {"@id": ORG["@id"]}})
     data = {"@context": "https://schema.org", "@graph": graph}
     return json.dumps(data, indent=1, ensure_ascii=False).replace("</", "<\\/")
 
@@ -162,11 +152,11 @@ def header(page):
 <div class="wrap row">
 <a class="brand" href="/">
 {LOGO_SVG}
-<span>Laurel Pass Partners</span>
+<span>{ENTITY}</span>
 </a>
 <nav class="row site-nav" aria-label="Main">
 {chr(10).join(links)}
-<a class="btn btn-primary" href="/#contact">Start a confidential conversation</a>
+<a class="btn btn-primary" href="/contact">Start a confidential conversation</a>
 </nav>
 </div>
 </header>"""
@@ -174,8 +164,8 @@ def header(page):
 
 CTA = """<section class="dark cta-band">
 <div class="wrap row">
-<h2>Thinking about what comes next for your practice? Start with a confidential conversation.</h2>
-<a class="btn btn-primary" href="/#contact" style="font-size:17px">Start a confidential conversation</a>
+<h2>Thinking about what comes next for your practice? A first call is confidential and commits you to nothing.</h2>
+<a class="btn btn-primary" href="/contact" style="font-size:17px">Start a confidential conversation</a>
 </div>
 </section>"""
 
@@ -183,35 +173,30 @@ FOOTER = f"""<footer class="dark site-footer">
 <div class="wrap">
 <div class="row footer-cols">
 <div class="footer-about">
-<h2>Laurel Pass Partners</h2>
+<h2>{ENTITY}</h2>
 <p>{DESCRIPTION}</p>
-<p>Laurel Pass Partners is not affiliated with any other firm using the Laurel name.</p>
 <p><a href="mailto:{EMAIL}">{EMAIL}</a></p>
 </div>
 <div>
-<h2>Selling your practice</h2>
+<h2>Two ways to work together</h2>
 <ul>
-<li><a href="/how-a-sale-works">How a sale works</a></li>
-<li><a href="/selling-a-dwi-practice-in-new-york">Selling a DWI practice in New York</a></li>
-<li><a href="/what-is-my-practice-worth">What is my practice worth?</a></li>
-<li><a href="/how-the-sale-is-taxed">How the sale is taxed</a></li>
-<li><a href="/your-options">Your options</a></li>
+<li><a href="/partner">Partner and keep practicing</a></li>
+<li><a href="/retire">Retire on your timeline</a></li>
 </ul>
 </div>
 <div>
-<h2>Laurel Pass</h2>
+<h2>More</h2>
 <ul>
+<li><a href="/#how">How a conversation works</a></li>
 <li><a href="/about">About</a></li>
 <li><a href="/faq">FAQ</a></li>
-<li><a href="/insights">Guides and insights</a></li>
-<li><a href="/referral-partners">For brokers and advisors</a></li>
-<li><a href="/#contact">Start a confidential conversation</a></li>
+<li><a href="/contact">Start a confidential conversation</a></li>
 </ul>
 </div>
 </div>
 <div class="row footer-legal">
-<p>© 2026 Laurel Pass Partners. All rights reserved.</p>
-<p>We acquire law practices. This site does not offer legal services, and nothing on it is an offer to purchase any practice. Our guides are general information, not legal or tax advice.</p>
+<p>© 2026 {ENTITY}. All rights reserved.</p>
+<p>{DISCLOSURE} Nothing on this site is legal or tax advice.</p>
 </div>
 </div>
 </footer>"""
@@ -220,13 +205,37 @@ ANALYTICS = """<script>window.va = window.va || function () { (window.vaq = wind
 <script defer src="/_vercel/insights/script.js"></script>"""
 
 
+def form_action():
+    if not (FORM_TARGET == "[FORM ENDPOINT OR INBOX]" or FORM_TARGET.startswith("https://")
+            or re.fullmatch(r"[^\s@\[\]:]+@[^\s@\[\]]+", FORM_TARGET)):
+        sys.exit(f"FORM_TARGET must be an https:// endpoint or a bare inbox address, got {FORM_TARGET!r}")
+    if FORM_TARGET.startswith("https://"):
+        return f' action="{FORM_TARGET}"'
+    if re.fullmatch(r"[^\s@\[\]]+@[^\s@\[\]]+", FORM_TARGET):
+        return f' action="mailto:{FORM_TARGET}?subject=Confidential%20inquiry" enctype="text/plain"'
+    return ""
+
+
 def render(page):
     body = (SRC / (page["src"] + ".html")).read_text()
     script = ""
     if "<!--SCRIPT-->" in body:
         body, script = body.split("<!--SCRIPT-->", 1)
+    if "<!--FAQ_PREVIEW-->" in body:
+        faq = (SRC / "faq.html").read_text()
+        blocks = {text_of(q): m for m, q in re.findall(r"(<details><summary>(.*?)</summary>.*?</details>)", faq, re.S)}
+        body = body.replace("<!--FAQ_PREVIEW-->", "\n".join(blocks[q] for q in FAQ_PREVIEW))
+    if "<!--CONTACT_FORM-->" in body:
+        noscript = "" if form_action() else (
+            '<noscript><p style="margin:0;font-size:14px;color:var(--muted)">This form isn\'t connected '
+            f'yet. Please write to {EMAIL} instead.</p></noscript>')
+        form = (SRC / "partials" / "contact-form.html").read_text()
+        form = form.replace("{action}", form_action()).replace("{noscript}", noscript)
+        body = body.replace("<!--CONTACT_FORM-->", form.strip())
+        script += (SRC / "partials" / "contact-form-script.html").read_text().replace("{target}", FORM_TARGET).replace("{email}", EMAIL)
+    body = body.replace("[ENTITY NAME]", ENTITY)
     url = ORIGIN + page["url"]
-    og_type = "article" if page["kind"] in ("guide", "article") else "website"
+    og_type = "website"
     e = html.escape
     if page.get("noindex"):
         robots, og_url = '<meta name="robots" content="noindex">\n', ""
@@ -240,21 +249,21 @@ def render(page):
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{e(page["title"])}</title>
 <meta name="description" content="{e(page["desc"])}">
-{robots}<meta property="og:site_name" content="Laurel Pass Partners">
+{robots}<meta property="og:site_name" content="{ENTITY}">
 <meta property="og:title" content="{e(page.get("og_title", h1_of(body)))}">
 <meta property="og:description" content="{e(page.get("og_desc", page["desc"]))}">
 <meta property="og:type" content="{og_type}">
 {og_url}<meta property="og:image" content="{ORIGIN}/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Laurel Pass Partners: attorney-led law practice acquisitions in New York">
+<meta property="og:image:alt" content="{ENTITY}: a partner to elder law, estate planning and probate firms in the New York area and northern New Jersey">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon-48.png" sizes="48x48" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles.css">
 <script type="application/ld+json">
 {schema_for(page, body)}
@@ -297,36 +306,32 @@ def sitemap():
 
 
 def llms():
-    groups = {"guide": [], "article": [], "rest": []}
-    for p in PAGES:
-        if p.get("noindex") or p["url"] == "/":
-            continue
-        name = p["title"].split(" | ")[0]
-        line = f"- [{name}]({ORIGIN}{p['url']}): {p['desc']}"
-        groups[p["kind"] if p["kind"] in groups else "rest"].append(line)
-    text = f"""# Laurel Pass Partners
+    pages = [p for p in PAGES if not p.get("noindex") and p["url"] != "/"]
+    lines = "\n".join(f"- [{p['title'].split(' | ')[0]}]({ORIGIN}{p['url']}): {p['desc']}" for p in pages)
+    text = f"""# {ENTITY}
 
 > {DESCRIPTION}
 
-Laurel Pass Partners is an attorney-led firm that buys and runs established DWI, criminal-defense and other flat-fee practices in New York City, Long Island and Westchester. Practices stay lawyer-owned, staff and client relationships carry over, and every conversation is confidential. Most of the price is paid at closing. Laurel Pass Partners is not affiliated with any other firm using the Laurel name. Contact: {EMAIL}
+{ENTITY} works with owner-operators of elder law, estate planning, and probate and trust administration firms on Long Island, in Westchester, in the five boroughs and in northern New Jersey, typically with roughly $750K–$3M in revenue and one to five attorneys. Owners choose one of two paths: partner and keep practicing (sell a minority stake to an attorney licensed in the firm's state for liquidity, keep running the practice, have a services team handle marketing, intake, administration and technology under the firm's direction, and hold equity in the platform), or retire on their own timeline (a purchase by an attorney licensed in the owner's state, structured under the professional rules on the sale of a law practice, staff kept, a structured handoff). Firms stay owned by attorneys; {ENTITY} holds no stake in any law firm. Conversations are confidential and covered by an NDA before any details are shared. {DISCLOSURE} Contact: {EMAIL}
 
 ## Start here
 
-- [Laurel Pass Partners]({ORIGIN}/): Who we are, what we look for (DWI/DUI defense first, other flat-fee practices welcome; $500K–$5M in annual fees; New York City, Long Island and Westchester) and how to start a confidential conversation.
+- [{ENTITY}]({ORIGIN}/): The two paths, what stays the same, what the services team handles, what we look for, and how a conversation works.
 
-## Guides for practice owners
+## Pages
 
-{chr(10).join(groups["guide"])}
-
-## About and contact
-
-{chr(10).join(groups["rest"])}
-
-## Articles
-
-{chr(10).join(groups["article"])}
+{lines}
 """
     (OUT / "llms.txt").write_text(text)
+
+
+def robots():
+    (OUT / "robots.txt").write_text(
+        "# Open to every crawler, including search and AI crawlers:\n"
+        "# Googlebot, Bingbot, OAI-SearchBot, ChatGPT-User, GPTBot,\n"
+        "# Claude-SearchBot, Claude-User, ClaudeBot and PerplexityBot.\n"
+        "User-agent: *\nAllow: /\n\n"
+        f"Sitemap: {ORIGIN}/sitemap.xml\n")
 
 
 if __name__ == "__main__":
@@ -337,3 +342,4 @@ if __name__ == "__main__":
             print("skip (no source yet)", p["src"])
     sitemap()
     llms()
+    robots()

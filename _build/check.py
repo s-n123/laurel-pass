@@ -1,4 +1,5 @@
 """Static checks for the built site. Usage: python3 -I check.py <repo_dir>"""
+import html
 import json
 import re
 import sys
@@ -6,8 +7,28 @@ from html.parser import HTMLParser
 from pathlib import Path
 
 ROOT = Path(sys.argv[1])
-ORIGIN = "https://laurelpasspartners.com"
+ORIGIN = re.search(r'^ORIGIN = "(.*)"$', (Path(__file__).parent / "build.py").read_text(), re.M).group(1)
 problems = []
+
+# Wording the positioning rules out. Checked in everything a visitor or crawler can read,
+# including meta tags, JSON-LD, llms.txt, robots.txt and the sitemap. vercel.json is exempt:
+# its redirects must name the old URLs.
+BANNED = [r"\bDWI\b", r"\bDUI\b", r"criminal", r"personal injury", r"\bacquir", r"\bacquisition",
+          r"private equity", r"\bMSO\b", r"roll-?up", r"\bpremier\b", r"\bpremium\b", r"\bleading\b",
+          r"\bcheaper\b", r"platform play", r"\bour (attorneys|lawyers|law firms?|team)\b",
+          r"we handle cases", r"paid at closing", r"cash at closing", r"\bmultiples?\b", r"laurel\s?pass",
+          r"spencer", r"\bM&(amp;)?A\b", r"large-firm",
+          r"\bflat[- ]fee", r"\bretainer", r"\bSBA\b", r"letter of intent", r"\bLOI\b", r"one business day",
+          r"90 to 120", r"\$500K", r"\$5M", r"fee revenue", r"\bbrokers?\b", r"\bfunds?\b", r"\btraffic\b",
+          r"misdemeanor", r"bankruptcy", r"divorce", r"\bwe buy\b", r"\bat closing\b", r"formspree",
+          r"how-a-sale-works", r"what-is-my-practice-worth", r"\bguides?\b", r"(?<!_vercel/)insights"]
+DISCLOSURE_RE = r"\S+(?: \S+)*? LLC is not a law firm and does not provide legal services\."
+
+
+def banned_in(name, content):
+    for pat in BANNED:
+        for m in re.finditer(pat, content, re.I):
+            problems.append(f"{name}: banned or stale wording '{m.group(0)}'")
 
 
 class Page(HTMLParser):
@@ -65,12 +86,18 @@ for f in html_files:
     pg.feed(src)
     parsed[f] = (src, pg)
     text = re.sub(r"\s+", " ", "".join(pg.text))
+    banned_in(f.name, src)
+    llc = len(re.findall(r"\bLLC\b", src))
+    if llc != 1 or not re.search(r"<footer.*" + DISCLOSURE_RE, src, re.S):
+        problems.append(f"{f.name}: 'LLC' should appear once, in the footer disclosure (found {llc})")
     t = re.search(r"<title>(.*?)</title>", src).group(1)
     d = re.search(r'<meta name="description" content="(.*?)">', src).group(1)
     titles.setdefault(t, []).append(f.name)
     descs.setdefault(d, []).append(f.name)
-    if len(d) > 165:
-        problems.append(f"{f.name}: description {len(d)} chars")
+    if len(html.unescape(t)) > 70:
+        problems.append(f"{f.name}: title {len(html.unescape(t))} chars")
+    if len(html.unescape(d)) > 160:
+        problems.append(f"{f.name}: description {len(html.unescape(d))} chars")
     # JSON-LD
     for blob in pg.ld:
         try:
@@ -89,12 +116,6 @@ for f in html_files:
                     if q["name"] not in text or q["acceptedAnswer"]["text"] not in text:
                         problems.append(f"{f.name}: FAQ entry not in visible text: {q['name']}")
                 print(f"{f.name}: {len(node['mainEntity'])} FAQ entries")
-            if node["@type"] == "Article":
-                if node["headline"] not in text:
-                    problems.append(f"{f.name}: headline not visible")
-                canon = re.search(r'<link rel="canonical" href="(.*?)">', src).group(1)
-                if node["url"] != canon:
-                    problems.append(f"{f.name}: Article url {node['url']} != canonical {canon}")
     # Links
     for href in pg.links:
         if href.startswith(("mailto:", "http://", "https://")):
@@ -136,5 +157,15 @@ for f, (src, _) in parsed.items():
 if locs != canons:
     problems.append(f"sitemap/canonical mismatch: only sitemap {locs - canons}, only canonical {canons - locs}")
 
+if f"Sitemap: {ORIGIN}/sitemap.xml" not in (ROOT / "robots.txt").read_text():
+    problems.append("robots.txt: Sitemap line does not match ORIGIN")
+
+for extra in ("llms.txt", "robots.txt", "sitemap.xml"):
+    banned_in(extra, (ROOT / extra).read_text())
+
 print(f"{len(html_files)} pages, {len(locs)} sitemap URLs")
 print("\n".join(problems) if problems else "No problems found")
+left = sorted({m for f in html_files for m in re.findall(r"\[(?:ENTITY NAME|DOMAIN|CONTACT EMAIL|FORM ENDPOINT OR INBOX)\]", f.read_text())})
+if left:
+    print("Placeholders left in the built pages:", ", ".join(left))
+    sys.exit(1)
