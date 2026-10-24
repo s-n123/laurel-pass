@@ -12,12 +12,13 @@ from pathlib import Path
 SRC = Path(sys.argv[1])
 OUT = Path(sys.argv[2])
 
-# Placeholders until the entity name, domain and contact address are final. Set each once here.
-ENTITY = "[ENTITY NAME]"
-ORIGIN = "https://[DOMAIN]"
-EMAIL = "[CONTACT EMAIL]"
+# The entity name, domain and contact address, each set once here. Page sources write the name
+# as the token [ENTITY NAME]; render() swaps in ENTITY.
+ENTITY = "Laurel Way Partners"
+ORIGIN = "https://laurelwaypartners.com"
+EMAIL = "hello@laurelwaypartners.com"
 # Where the contact form sends: a form endpoint URL (e.g. Formspree) or an inbox address.
-FORM_TARGET = "[FORM ENDPOINT OR INBOX]"
+FORM_TARGET = EMAIL
 DISCLOSURE = (f"{ENTITY} LLC is not a law firm and does not provide legal services. The firms we "
               "work with are independently owned and operated by licensed attorneys.")
 DESCRIPTION = (f"{ENTITY} is an attorney-led platform that partners with elder law, estate planning "
@@ -232,6 +233,7 @@ def render(page):
         form = form.replace("{action}", form_action()).replace("{noscript}", noscript)
         body = body.replace("<!--CONTACT_FORM-->", form.strip())
         script += (SRC / "partials" / "contact-form-script.html").read_text().replace("{target}", FORM_TARGET).replace("{email}", EMAIL)
+    body = body.replace("[ENTITY NAME]", ENTITY)
     url = ORIGIN + page["url"]
     og_type = "website"
     e = html.escape

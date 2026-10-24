@@ -24,17 +24,19 @@ From the repo root:
 When you change a page's content, update its visible "Updated" date and its `modified`
 value in `build.py` together.
 
-## Placeholders to fill before launch
+## Name, domain and contact settings
 
-Set each of these once at the top of `build.py`, then rebuild:
+Each is set once at the top of `build.py`; change it there and rebuild:
 
-- `ENTITY` — the company name, shown everywhere as `[ENTITY NAME]`. The footer disclosure
-  adds "LLC" after it; nowhere else does.
+- `ENTITY` — the company name. Page sources write it as the token `[ENTITY NAME]`, which
+  the build replaces. The footer disclosure adds "LLC" after it; nowhere else does.
 - `ORIGIN` — the site's address, `https://[DOMAIN]`. `check.py` reads it from `build.py`, and
   `robots.txt` is regenerated from it on every build, so don't edit either by hand.
 - `EMAIL` — the public contact address shown in the footer and structured data.
-- `FORM_TARGET` — where the contact form sends: a form endpoint URL (for example
-  Formspree), or an inbox address, which opens the visitor's email app instead.
+- `FORM_TARGET` — where the contact form sends: an `https://` form endpoint (for example
+  Formspree), or an inbox address (currently `EMAIL`), which opens the visitor's email app.
+
+`check.py` fails if a bracketed placeholder ever reaches a built page.
 
 After setting `ENTITY`, also set it in `og-image.mjs` and run `node _build/og-image.mjs`
 from the repo root to redraw the share image, which has the name drawn into it.

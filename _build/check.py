@@ -16,7 +16,7 @@ problems = []
 BANNED = [r"\bDWI\b", r"\bDUI\b", r"criminal", r"personal injury", r"\bacquir", r"\bacquisition",
           r"private equity", r"\bMSO\b", r"roll-?up", r"\bpremier\b", r"\bpremium\b", r"\bleading\b",
           r"\bcheaper\b", r"platform play", r"\bour (attorneys|lawyers|law firms?|team)\b",
-          r"we handle cases", r"paid at closing", r"cash at closing", r"\bmultiples?\b", r"laurel",
+          r"we handle cases", r"paid at closing", r"cash at closing", r"\bmultiples?\b", r"laurel\s?pass",
           r"spencer", r"\bM&(amp;)?A\b", r"large-firm",
           r"\bflat[- ]fee", r"\bretainer", r"\bSBA\b", r"letter of intent", r"\bLOI\b", r"one business day",
           r"90 to 120", r"\$500K", r"\$5M", r"fee revenue", r"\bbrokers?\b", r"\bfunds?\b", r"\btraffic\b",
@@ -165,7 +165,7 @@ for extra in ("llms.txt", "robots.txt", "sitemap.xml"):
 
 print(f"{len(html_files)} pages, {len(locs)} sitemap URLs")
 print("\n".join(problems) if problems else "No problems found")
-# Not a failure: a reminder of what still has to be filled in before launch.
 left = sorted({m for f in html_files for m in re.findall(r"\[(?:ENTITY NAME|DOMAIN|CONTACT EMAIL|FORM ENDPOINT OR INBOX)\]", f.read_text())})
 if left:
-    print("Placeholders still set (fine for previews, not for launch):", ", ".join(left))
+    print("Placeholders left in the built pages:", ", ".join(left))
+    sys.exit(1)

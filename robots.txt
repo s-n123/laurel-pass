@@ -4,4 +4,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://[DOMAIN]/sitemap.xml
+Sitemap: https://laurelwaypartners.com/sitemap.xml
