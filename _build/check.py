@@ -21,7 +21,7 @@ BANNED = [r"\bDWI\b", r"\bDUI\b", r"criminal", r"personal injury", r"\bacquir", 
           r"\bflat[- ]fee", r"\bretainer", r"\bSBA\b", r"letter of intent", r"\bLOI\b", r"one business day",
           r"90 to 120", r"\$500K", r"\$5M", r"fee revenue", r"\bbrokers?\b", r"\bfunds?\b", r"\btraffic\b",
           r"misdemeanor", r"bankruptcy", r"divorce", r"\bwe buy\b", r"\bat closing\b", r"formspree",
-          r"how-a-sale-works", r"what-is-my-practice-worth", r"\bguides?\b", r"(?<!_vercel/)insights"]
+          r"how-a-sale-works", r"what-is-my-practice-worth", r"\bguides?\b", r"(?<!_vercel/)insights", r"new jersey", r"\bNJ\b", r"licensed in (your|their|that firm's|the firm's|the owner's) state"]
 DISCLOSURE_RE = r"\S+(?: \S+)*? LLC is not a law firm and does not provide legal services\."
 
 
