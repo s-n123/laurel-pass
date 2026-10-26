@@ -22,7 +22,7 @@ FORM_TARGET = EMAIL
 DISCLOSURE = (f"{ENTITY} LLC is not a law firm and does not provide legal services. The firms we "
               "work with are independently owned and operated by licensed attorneys.")
 DESCRIPTION = (f"{ENTITY} is an attorney-led platform that partners with elder law, estate planning "
-               "and probate firms in the New York metro area and northern New Jersey.")
+               "and probate firms on Long Island, in Westchester and in New York City.")
 PUBLISHED = "2026-10-23"
 
 ORG = {
@@ -35,7 +35,7 @@ ORG = {
     "description": DESCRIPTION,
     "email": EMAIL,
     "areaServed": ["New York City", "Nassau County, NY", "Suffolk County, NY",
-                   "Westchester County, NY", "Northern New Jersey"],
+                   "Westchester County, NY"],
     "knowsAbout": ["Elder law practice succession",
                    "Estate planning practice succession",
                    "Probate and trust administration practices",
@@ -44,25 +44,25 @@ ORG = {
 
 # path: output file; url: public path; kind: website | page | contact | about | faq | notfound
 PAGES = [
-    dict(src="home", out="index.html", url="/", kind="website", modified="2026-10-23",
+    dict(src="home", out="index.html", url="/", kind="website", modified="2026-10-26",
          title=f"Partner or Sell Your Estate Planning Practice | {ENTITY}",
          og_title="Your practice. Your clients. A partner who'll still be there.",
-         desc="Sell your estate planning, elder law or probate practice in New York or northern NJ on your timeline, or sell a minority stake and keep practicing.",
-         og_desc="A partner to elder law, estate planning and probate firms across the New York area and northern New Jersey.",
+         desc="Sell your estate planning, elder law or probate practice in New York on your timeline, or sell a minority stake and keep practicing.",
+         og_desc="A partner to elder law, estate planning and probate firms on Long Island, in Westchester and in New York City.",
          cta=False),
-    dict(src="partner", url="/partner", kind="page", nav="partner", modified="2026-10-23",
-         title=f"Elder Law Practice Succession, Long Island to NJ | {ENTITY}",
-         desc="Own an elder law, estate planning or probate firm on Long Island, in Westchester, NYC or northern NJ? Sell a minority stake to an attorney and keep practicing."),
-    dict(src="retire", url="/retire", kind="page", nav="retire", modified="2026-10-23",
-         title=f"Sell Your Elder Law or Probate Practice in NY/NJ | {ENTITY}",
-         desc="Planning retirement from an elder law, estate planning or probate practice in Westchester, Long Island, NYC or northern NJ? A fair purchase under the rules."),
-    dict(src="about", url="/about", kind="about", nav="about", modified="2026-10-23",
-         title=f"About {ENTITY} | Attorney-led, NY Metro and Northern NJ",
-         desc="An attorney-led platform partnering with elder law, estate planning and probate firms in the New York metro area and northern New Jersey: what it does and why."),
-    dict(src="faq", url="/faq", kind="faq", nav="faq", modified="2026-10-23",
+    dict(src="partner", url="/partner", kind="page", nav="partner", modified="2026-10-26",
+         title=f"Elder Law Practice Succession on Long Island | {ENTITY}",
+         desc="Own an elder law, estate planning or probate firm on Long Island, in Westchester or NYC? Sell a minority stake to a New York–licensed attorney. Keep practicing."),
+    dict(src="retire", url="/retire", kind="page", nav="retire", modified="2026-10-26",
+         title=f"Sell Your Probate or Elder Law Practice in NY | {ENTITY}",
+         desc="Planning retirement from an elder law, estate planning or probate practice in Westchester, on Long Island or in NYC? A fair purchase under New York's rules."),
+    dict(src="about", url="/about", kind="about", nav="about", modified="2026-10-26",
+         title=f"About {ENTITY} | An Attorney-led New York Platform",
+         desc="An attorney-led platform partnering with elder law, estate planning and probate firms on Long Island, in Westchester and in New York City: what it does and why."),
+    dict(src="faq", url="/faq", kind="faq", nav="faq", modified="2026-10-26",
          title=f"Estate Planning and Elder Law Practice Owner FAQ | {ENTITY}",
          desc="Who owns the firm, what happens to staff, client files and original wills, how price and financing work, timing, fees and confidentiality. Plain answers."),
-    dict(src="contact", url="/contact", kind="contact", nav=None, cta=False, modified="2026-10-23",
+    dict(src="contact", url="/contact", kind="contact", nav=None, cta=False, modified="2026-10-26",
          title=f"Start a Confidential Conversation | {ENTITY}",
          desc="Tell us about your elder law, estate planning or probate practice. You'll hear back within two business days, and nothing goes to anyone else without an NDA."),
     dict(src="404", out="404.html", url="/404", kind="notfound", noindex=True, cta=False,
@@ -256,7 +256,7 @@ def render(page):
 {og_url}<meta property="og:image" content="{ORIGIN}/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="{ENTITY}: a partner to elder law, estate planning and probate firms in the New York area and northern New Jersey">
+<meta property="og:image:alt" content="{ENTITY}: a partner to elder law, estate planning and probate firms on Long Island, in Westchester and in New York City">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon-48.png" sizes="48x48" type="image/png">
@@ -312,7 +312,7 @@ def llms():
 
 > {DESCRIPTION}
 
-{ENTITY} works with owner-operators of elder law, estate planning, and probate and trust administration firms on Long Island, in Westchester, in the five boroughs and in northern New Jersey, typically with roughly $750K–$3M in revenue and one to five attorneys. Owners choose one of two paths: partner and keep practicing (sell a minority stake to an attorney licensed in the firm's state for liquidity, keep running the practice, have a services team handle marketing, intake, administration and technology under the firm's direction, and hold equity in the platform), or retire on their own timeline (a purchase by an attorney licensed in the owner's state, structured under the professional rules on the sale of a law practice, staff kept, a structured handoff). Firms stay owned by attorneys; {ENTITY} holds no stake in any law firm. Conversations are confidential and covered by an NDA before any details are shared. {DISCLOSURE} Contact: {EMAIL}
+{ENTITY} works with owner-operators of elder law, estate planning, and probate and trust administration firms on Long Island, in Westchester and in the five boroughs, typically with roughly $750K–$3M in revenue and one to five attorneys. Owners choose one of two paths: partner and keep practicing (sell a minority stake to a New York–licensed attorney for liquidity, keep running the practice, have a services team handle marketing, intake, administration and technology under the firm's direction, and hold equity in the platform), or retire on their own timeline (a purchase by a New York–licensed attorney, structured under the professional rules on the sale of a law practice, staff kept, a structured handoff). Firms stay owned by attorneys; {ENTITY} holds no stake in any law firm. Conversations are confidential, and an NDA is signed before any detailed information about a practice is shared. {DISCLOSURE} Contact: {EMAIL}
 
 ## Start here
 
